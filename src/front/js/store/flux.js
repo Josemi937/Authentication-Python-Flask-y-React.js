@@ -20,16 +20,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
+			logout: () => {
+				// Eliminar el token de localStorage
+				localStorage.removeItem("token");
+
+				// Redirigir al usuario a la página de inicio (o cualquier página pública)
+				window.location.href = "/";
+			},
 
 			getMessage: async () => {
-				try{
+				try {
 					// fetching data from the backend
 					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
 					return data;
-				}catch(error){
+				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
@@ -46,6 +53,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			login: async () => {
+				const email = "martola@4Geeks.com"
+				const password = "654321"
+				const url = "https://ideal-computing-machine-4jg6gp77gg59c77wg-3001.app.github.dev"
+				const resp = await fetch(process.env.BACKEND_URL + "/login", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ email, password })
+				})
+				if (!resp.ok) throw Error("There was a problem in the login request")
+				const data = await resp.json()
+				localStorage.setItem("token", data.token);
+
+
+			},
+			private: async () => {
+				const token = localStorage.getItem("token")
+				const resp = await fetch(process.env.BACKEND_URL + "/private", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${token}`
+
+					}
+				})
+				console.log(resp)
+				const data = await resp.json()
 			}
 		}
 	};
