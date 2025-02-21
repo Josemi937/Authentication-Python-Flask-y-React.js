@@ -24,11 +24,11 @@ export const Login = () => {
             }
 
             const data = await response.json();
-            // Guardar el token en localStorage
+            
             localStorage.setItem("token", data.token);
 
-            // Redirigir al usuario a la página privada
-            navigate("/private");  // Redirección a la página privada
+            
+            navigate("/private");  
         } catch (err) {
             setError(err.message);
         }
