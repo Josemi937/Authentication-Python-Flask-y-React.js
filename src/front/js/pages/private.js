@@ -1,49 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+import "../../styles/home.css"; 
 
 export const Private = () => {
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+    const { actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [userEmail, setUserEmail] = useState("");  
 
     useEffect(() => {
-        const fetchPrivateData = async () => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                setError("No estás autenticado");
-                return;
-            }
-
-            try {
-                const response = await fetch("https://ideal-computing-machine-4jg6gp77gg59c77wg-3001.app.github.dev/private", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error("No autorizado");
+        const validateToken = async () => {
+            const isValid = await actions.private();
+            if (!isValid) {
+                navigate("/login");
+            } else {
+                
+                const email = localStorage.getItem("email");
+                console.log("Email desde localStorage:", email); 
+                if (email) {
+                    setUserEmail(email); 
+                } else {
+                    console.error("El correo no está disponible en localStorage");
                 }
-
-                const data = await response.json();
-                setData(data);
-            } catch (err) {
-                setError(err.message);
             }
         };
+        validateToken();
+    }, [actions, navigate]);
 
-        fetchPrivateData();
-    }, []);
+    
+    const handleLogout = () => {
+        
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+
+        
+        navigate("/");
+    };
 
     return (
-        <div>
-            <h1>Contenido Privado</h1>
-            {error && <p className="error">{error}</p>}
-            {data ? (
-                <pre>{JSON.stringify(data, null, 2)}</pre>
-            ) : (
-                <p>Cargando datos...</p>
-            )}
+        <div className="login-background d-flex justify-content-center align-items-center vh-100">
+            <div className="login-content text-center">
+                <h1 className="mb-4">¡Welcome developer!</h1>
+                <p>{userEmail ? `Conected: ${userEmail}` : "Cargando..."}</p>
+
+                
+                <button className="btn btn-danger mt-4" onClick={handleLogout}>
+                    Logout
+                </button>
+            </div>
         </div>
     );
 };

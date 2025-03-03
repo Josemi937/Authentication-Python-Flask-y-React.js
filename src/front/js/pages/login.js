@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../../styles/home.css"; 
 
 export const Login = () => {
     const [email, setEmail] = useState("");
@@ -11,51 +12,64 @@ export const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch("https://ideal-computing-machine-4jg6gp77gg59c77wg-3001.app.github.dev/login", {
+            const response = await fetch(process.env.BACKEND_URL + "/login", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
             });
 
-            if (!response.ok) {
-                throw new Error("Credenciales incorrectas");
+            if (response.ok) {
+                const data = await response.json();
+
+                
+                localStorage.setItem("token", data.token);
+
+                
+                localStorage.setItem("email", email);  
+
+                
+                navigate("/private");
+            } else {
+                const errorData = await response.json();
+                setError(errorData.msg || "Error en el login");
             }
-
-            const data = await response.json();
-            
-            localStorage.setItem("token", data.token);
-
-            
-            navigate("/private");  
-        } catch (err) {
-            setError(err.message);
+        } catch (error) {
+            console.error("Error al conectarse al servidor:", error);
+            setError("Hubo un problema con el servidor");
         }
     };
-    
 
     return (
-        <div>
-            <h1>Iniciar sesión</h1>
-            {error && <p className="error">{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <label>Email:</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <label>Contraseña:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Iniciar sesión</button>
-            </form>
+        <div className="login-background d-flex justify-content-center align-items-center vh-100">
+            <div className="login-content text-center">
+                <h1>Login</h1>
+                {error && <p className="text-danger">{error}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">Email:</label>
+                        <input
+                            id="email"
+                            type="email"
+                            className="form-control"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">Password:</label>
+                        <input
+                            id="password"
+                            type="password"
+                            className="form-control"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button className="btn btn-primary w-100" type="submit">Login</button>
+                </form>
+            </div>
         </div>
     );
 };

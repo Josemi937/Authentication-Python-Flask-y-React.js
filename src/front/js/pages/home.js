@@ -1,31 +1,26 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
+import "../../styles/home.css"; 
+import { Link, useNavigate } from "react-router-dom";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
-	useEffect(()=>{
-		actions.login()
-	}, []) 
+  const { store, actions } = useContext(Context);
+  
+  useEffect(() => {
+    actions.login();
+  }, []); 
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<button className="btn btn-success" onClick={()=>{
-				actions.private()
-			}}>Get Private</button>
-			<button 
-				className="btn btn-danger mt-3"
-				onClick={() => actions.logout()}>
-				Logout
-			</button>
-		</div>
-	);
+  return (
+    <div className="home-background d-flex justify-content-center align-items-center min-vh-100">
+      <div className="home-content text-center">
+        <h1>Authentication system</h1>
+        <Link to="/signup" className="btn btn-primary me-2">
+          Signup
+        </Link>
+        <Link to="/login" className="btn btn-primary">
+          Login
+        </Link>
+      </div>
+    </div>
+  );
 };

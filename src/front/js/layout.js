@@ -21,7 +21,7 @@ const Layout = () => {
     const basename = process.env.BASENAME || "";
 
     // Verificar si el usuario está autenticado
-    const isAuthenticated = !!localStorage.getItem("token");  // Aquí verificamos si el token existe en localStorage
+    const isAuthenticated = !!localStorage.getItem("token");  
 
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;
 
@@ -32,11 +32,8 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
                         <Route element={<Signup />} path="/signup" /> 
                         <Route element={<Login />} path="/login" />    
-                        
-                        {/* Ruta privada que solo puede ser accedida si el usuario está autenticado */}
                         <Route 
                             path="/private" 
                             element={isAuthenticated ? <Private /> : <Navigate to="/login" />} 
@@ -44,10 +41,10 @@ const Layout = () => {
                         
                         <Route element={<Single />} path="/single/:theid" />
                         
-                        {/* Ruta comodín para manejar 404 */}
+                        
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
-                    <Footer />
+                    <Footer/>
                 </ScrollToTop>
             </BrowserRouter>
         </div>
@@ -55,3 +52,4 @@ const Layout = () => {
 };
 
 export default injectContext(Layout);
+

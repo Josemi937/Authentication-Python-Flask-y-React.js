@@ -78,53 +78,62 @@ def serve_any_other_file(path):
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0
     return response
-
-
 @app.route('/register', methods=['POST'])
 def register():
     body = request.get_json(silent=True)
-    if body == None:
-        return jsonify({'msg': 'Debes enviar informacion en el body: name, surname,email y password'}),400
+    print("Datos recibidos:", body)  
+    
+    if body is None:
+        return jsonify({'msg': 'Debes enviar informacion en el body: name, surname,email y password'}), 400
     if 'email' not in body:
-        return jsonify({'msg': 'El campo email es obligatorio'}),400
+        return jsonify({'msg': 'El campo email es obligatorio'}), 400
     if 'password' not in body:
         return jsonify({'msg': 'El campo password es obligatorio'}), 400
+
     user = User.query.filter_by(email=body['email']).first()
     if user is not None:
-        return jsonify ({'msg': f'El correo {body["email"]} ya ha sido registrado'}),400 
+        return jsonify({'msg': f'El correo {body["email"]} ya ha sido registrado'}), 400
+
     new_user = User()
     new_user.email = body['email']
     new_user.password = bcrypt.generate_password_hash(body['password']).decode('utf-8')
     new_user.is_active = True
-    db.session.add(new_user)  
+    db.session.add(new_user)
     db.session.commit()
-    return jsonify ({'msg': 'Nuevo usuario creado con exito!'}), 201
+
+    return jsonify({'msg': 'Nuevo usuario creado con exito!'}), 201
 
 
 @app.route('/login', methods=['POST'])
 def login():
     body = request.get_json(silent=True)
-    if body == None:
-        return jsonify({'msg': 'Debes enviar informacion en el body: email y password'}),400
-    if 'email' not in body:
-        return jsonify({'msg': 'El campo email es obligatorio'}),400
-    if 'password' not in body:
-        return jsonify({'msg': 'El campo password es obligatorio'}), 400
-        
+    print("Datos recibidos en el body:", body)
+    
+    
     user = User.query.filter_by(email=body['email']).first()
-    print(user)
+    
+    if user is None:
+        return jsonify({'msg': 'Correo o contraseña invalido'}), 401
+
     check_password = bcrypt.check_password_hash(user.password, body['password'])
-    if user is None or check_password == False:
-        return jsonify({'msg': 'Correo o contraseña invalido'}),401
+
+    if not check_password:
+        return jsonify({'msg': 'Correo o contraseña invalido'}), 401
+    
     access_token = create_access_token(identity=user.email)
+    print("Token generado:", access_token)  
     return jsonify({'token': access_token})
 
 
-@app.route('/private', methods=['GET'])
+
+
+@app.route("/private", methods=["GET"])
 @jwt_required()
 def protected():
+    
     current_user = get_jwt_identity()
-    return jsonify({'msg': 'ok', 'user': current_user})
+    return jsonify({'msg': 'ok', 'user': current_user}), 200
+
 
 
 

@@ -1,3 +1,125 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+nav{
+    background-color: lightskyblue;
+  
+}
+.navbar-logo {
+    height: 50px; 
+    width: auto; 
+  }
+ 
+.private-background {
+    position: relative;
+    background-image: url("https://d92mrp7hetgfk.cloudfront.net/images/sites/misc/4G_LOGO_NEGRO-01__1_/original.png?1560209943");
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center center;
+    min-height: 100vh;
+}
+
+.private-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.4); 
+    z-index: 0; 
+}
+
+.private-content {
+    position: relative; 
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1; 
+}
+
+.home-background {
+    position: relative;
+    background-image: url("https://d92mrp7hetgfk.cloudfront.net/images/sites/misc/4G_LOGO_NEGRO-01__1_/original.png?1560209943");
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    min-height: 100vh;
+}
+
+.home-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.4); 
+    z-index: 0;
+}
+
+.home-content {
+    position: relative; 
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1; 
+}
+
+.signup-background {
+    position: relative;
+    background-image: url("https://d92mrp7hetgfk.cloudfront.net/images/sites/misc/4G_LOGO_NEGRO-01__1_/original.png?1560209943");
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center center;
+    min-height: 100vh;
+}
+
+.signup-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    z-index: 0; 
+}
+.signup-content {
+    position: relative; 
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1; 
+}
+
+.login-background {
+    position: relative;
+    background-image: url("https://d92mrp7hetgfk.cloudfront.net/images/sites/misc/4G_LOGO_NEGRO-01__1_/original.png?1560209943");
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center center;
+    min-height: 100vh;
+}
+
+.login-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.4); 
+    z-index: 0;
+}
+
+.login-content {
+    position: relative; 
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1; 
+}
+footer {
+    background-color: lightskyblue;
+}
