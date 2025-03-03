@@ -92,6 +92,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 					
 					setStore({ token: data.token });
+					window.location.href = "/private";
 				} catch (error) {
 					
 					console.error("Error en el login:", error);
