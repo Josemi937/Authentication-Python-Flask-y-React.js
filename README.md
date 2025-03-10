@@ -3,17 +3,18 @@
 Authentication-Python-Flask-and-React.js is a robust and flexible authentication system built with Python (Flask) for the backend and React.js for the frontend. This system provides a simple yet secure way to manage user authentication, including login, registration, and session management, for modern web applications.
 
 Features:
-User Registration: Easily register new users with email and password.
-Login/Logout: Secure user login and logout functionality with token-based authentication (JWT).
-Session Management: Efficient management of user sessions with the use of JWT tokens, ensuring secure and persistent login states.
-Responsive UI: A user-friendly frontend built with React.js, offering a seamless experience for registration and login.
-Flask Backend: A lightweight, scalable backend built with Python Flask, ensuring security, flexibility, and ease of integration.
-JWT Authentication: Secure authentication with JSON Web Tokens (JWT) to manage user sessions and access control.
+- User Registration: Easily register new users with email and password.
+- Login/Logout: Secure user login and logout functionality with token-based authentication (JWT).
+- Session Management: Efficient management of user sessions with the use of JWT tokens, ensuring secure and persistent login states.
+- Responsive UI: A user-friendly frontend built with React.js, offering a seamless experience for registration and login.
+- Flask Backend: A lightweight, scalable backend built with Python Flask, ensuring security, flexibility, and ease of integration.
+- JWT Authentication: Secure authentication with JSON Web Tokens (JWT) to manage user sessions and access control.
+
 Tech Stack:
-Backend: Python, Flask
-Frontend: React.js
-Authentication: JWT (JSON Web Tokens)
-Database: Can be easily integrated with SQL or NoSQL databases based on your needs.
+- Backend: Python, Flask
+- Frontend: React.js
+- Authentication: JWT (JSON Web Tokens)
+- Database: Can be easily integrated with SQL or NoSQL databases based on your needs.
 
 ### 1) Installation:
 
